@@ -1,19 +1,12 @@
 ﻿using Hangfire;
 using System.Web.Http;
 using System;
-using Modulo.AuthorizedApplicationExample.Services;
-using Microsoft.Practices.Unity;
 using System.IO;
-using System.Web;
-using System.Net.Http.Formatting;
 using System.Linq;
 using System.Management.Automation;
 using Serilog;
 using System.Web.Http.Results;
-using WebApiContrib.Formatting.Html;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Modulo.AuthorizedApplicationExample.Areas.Api
 {

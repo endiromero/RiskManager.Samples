@@ -1,25 +1,26 @@
-﻿using Microsoft.Practices.Unity;
-using System;
-using System.Web.Http;
-using Unity.WebApi;
-using Hangfire;
+﻿using Hangfire;
 using Hangfire.MemoryStorage;
 using Hangfire.Unity;
-using Serilog;
 using Microsoft.Owin;
+using Microsoft.Practices.Unity;
+using Modulo.AuthorizedApplicationExample.Services;
 using Owin;
-using System.Web.Http.ExceptionHandling;
-using System.Web.Http.Filters;
+using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Net;
-using System.Configuration;
-using System.Collections.Generic;
+using System.Web.Http.ExceptionHandling;
+using System.Web.Http.Filters;
+using Unity.WebApi;
 using WebApiContrib.Formatting.Razor;
-using WebApiContrib.Formatting.Html;
-using System.Net.Http.Formatting;
 
 [assembly: OwinStartup(typeof(Modulo.AuthorizedApplicationExample.Startup))]
 
@@ -33,17 +34,33 @@ namespace Modulo.AuthorizedApplicationExample
     }
 
     public delegate string ToPhysicalPath(string virtualPath);
+    public delegate string ToAbsolutePath(string virtualPath);
 
     public class Startup
     {
         public void Configuration(IAppBuilder app)
         {
+            ServicePointManager.ServerCertificateValidationCallback = (a, b, c, d) => true;
+
+            var moduloRMConfig = new ModuloRiskManagerConfig()
+            {
+                BaseUri = new Uri("https://build.dev.modulo.com/RM_EN_FULL"),
+                Id = "3a998f2dc04a46d9a85312164b048e55",
+                Key = "f877dfe7752c44318d2c5dd4a74eb501"
+            };
+
             var unity = new UnityContainer();
             unity.RegisterInstance<int>(42);
+            unity.RegisterInstance<ModuloRiskManagerConfig>(moduloRMConfig);
             unity.RegisterInstance<HttpClient>(new HttpClient());
             unity.RegisterInstance<ToPhysicalPath>(new ToPhysicalPath(x =>
                 {
                     return System.Web.Hosting.HostingEnvironment.MapPath(x);
+                }));
+            unity.RegisterInstance<ToAbsolutePath>(new ToAbsolutePath(x =>
+                {
+                    var host = HttpContext.Current.Request.Url.GetComponents(UriComponents.SchemeAndServer, UriFormat.UriEscaped);
+                    return host + VirtualPathUtility.ToAbsolute(x);
                 }));
 
             Log.Logger = new LoggerConfiguration()
