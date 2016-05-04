@@ -17,10 +17,10 @@ https://github.com/modulogrc/RiskManager.Samples/blob/master/source/Modulo.Autho
         return response;
     }
 
-2 - Process the OAuth code
-3 - Call Risk Manager to get the access token
-4 - Call Risk Manager to get user information
-5 - Save the user information and the access token in the cookie using the MachineKey cryptography
+2 - Process the OAuth code  
+3 - Call Risk Manager to get the access token  
+4 - Call Risk Manager to get user information  
+5 - Save the user information and the access token in the cookie using the MachineKey cryptography  
 
 https://github.com/modulogrc/RiskManager.Samples/blob/master/source/Modulo.AuthorizedApplicationExample/Controllers/LoginController.cs#L37
 
