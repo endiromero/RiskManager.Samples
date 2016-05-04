@@ -1,0 +1,20 @@
+﻿@model Modulo.AuthorizedApplicationExample.Areas.Api.PowershellApiController+GetScriptViewModel
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div>test2</div>
+    <div>
+        <form action="@Model.FormAction" method="@Model.FormMethod">
+            @foreach(var item in Model.Parameters)
+            {
+                <input type="text" name="@item" />
+            }
+            <input type="submit" />
+        </form>        
+    </div>
+</body>
+</html>
