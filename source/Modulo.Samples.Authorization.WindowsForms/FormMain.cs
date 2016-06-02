@@ -37,6 +37,8 @@ namespace Modulo.Samples.Authorization.WindowsForms
         {
             if (e.Url.StartsWith("http://localhost/app"))
             {
+                MessageBox.Show(e.Url);
+
                 var url = "https://build.dev.modulo.com/RM_EN_FULL";
                 var clientId = textBoxClientId.Text;
                 var clientSecret = textBoxClientSecret.Text;
